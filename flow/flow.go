@@ -51,7 +51,7 @@ func (m *Mapper) ReadPacket(pkt gopacket.Packet) {
 	}
 	udpLayer := pkt.Layer(layers.LayerTypeUDP)
 	if udpLayer != nil {
-		udp := tcpLayer.(*layers.UDP)
+		udp := udpLayer.(*layers.UDP)
 		protocol = "udp"
 		srcPort = strconv.Itoa(int(udp.SrcPort))
 		dstPort = strconv.Itoa(int(udp.DstPort))
