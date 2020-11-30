@@ -86,8 +86,9 @@ func (m *Mapper) Status() {
 }
 
 //Handle set Handler func and return handled string data.
-func (m *Mapper) Handle(f func(map[string]*[]*gopacket.Packet) string) string {
-	return f(m.mmap)
+// savePath is where data to save,rawFile is the abs path of the readed pcap.
+func (m *Mapper) Handle(f func(map[string]*[]*gopacket.Packet, string, string), savingPath string, rawFile string) {
+	f(m.mmap, savingPath, rawFile)
 }
 
 //genKey genenrate 5 tuple,biFlow控制是否要存单向流还是双向流,biFlow=true时需要把双向流处理为1条流

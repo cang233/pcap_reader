@@ -27,13 +27,23 @@ func Handle(filePath, savingDir string) {
 	for packet := range packetSource.Packets() {
 		mapper.ReadPacket(packet)
 	}
-	//extract
-	data := mapper.Handle(extract)
-	save(data, savingDir, filePath)
+
+	//extract1
+	mapper.Handle(extract, savingDir, filePath)
+
+	//TODO 添加其他extractor
+	//example
+	//mapper.Handle(extract2, savingDir, filePath)
 }
 
-//extract features
-func extract(mmap map[string]*[]*gopacket.Packet) string {
+//savingPath:解析的特征要保存的文件位置，即pcap_reader里输入的savingDir
+//rawFile:当前mmap里保存的pcap文件数据，即pcap_reader里输入的pcapDir中某个当前正处理的pcap文件abs路径。
+func extract2(mmap map[string]*[]*gopacket.Packet, savingPath string, rawFile string) {
+	//TODO
+}
+
+//extract 解析流里包大小特征，然后保存到文件
+func extract(mmap map[string]*[]*gopacket.Packet, savingPath string, rawFile string) {
 	var datas string
 	for k, v := range mmap {
 		line := strings.Join(strings.Split(k, "-"), ",")
@@ -48,12 +58,14 @@ func extract(mmap map[string]*[]*gopacket.Packet) string {
 		datas += line
 	}
 
-	return datas
-}
-
-func save(data string, savingPath, rawFile string) {
 	//extract rawFileName
 	savingFile := filetools.CheckDirSuffix(savingPath, true) + filetools.ExtractRealName(rawFile, false) + ".txt"
+
+	save(datas, savingFile)
+}
+
+//save write data to savingFile
+func save(data string, savingFile string) {
 	filetools.WriteFile(savingFile, data)
 	fmt.Println("Data saved in " + savingFile)
 }
