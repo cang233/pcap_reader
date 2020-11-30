@@ -1,8 +1,8 @@
 package flow
 
 import (
-	"fmt"
 	"pcap-reader/config"
+	"pcap-reader/logger"
 	"strconv"
 	"strings"
 
@@ -80,9 +80,9 @@ func (m *Mapper) ReadPacket(pkt gopacket.Packet) {
 
 //Status print mapper info
 func (m *Mapper) Status() {
-	fmt.Println("* Mapper status:")
-	fmt.Println("** handled pkts:\t", m.countStatics)
-	fmt.Println("** cur mapper size:\t", len(m.mmap))
+	logger.Logger.Println("* Mapper status:")
+	logger.Logger.Println("** handled pkts:\t", m.countStatics)
+	logger.Logger.Println("** cur mapper size:\t", len(m.mmap))
 }
 
 //Handle set Handler func and return handled string data.

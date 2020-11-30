@@ -1,10 +1,10 @@
 package parser
 
 import (
-	"fmt"
 	"pcap-reader/config"
 	"pcap-reader/filetools"
 	"pcap-reader/flow"
+	"pcap-reader/logger"
 	"strconv"
 	"strings"
 
@@ -16,7 +16,7 @@ import (
 func Handle(filePath, savingDir string) {
 	handle, err := pcap.OpenOffline(filePath)
 	if err != nil {
-		fmt.Errorf("can not open pcap file:%s", filePath)
+		logger.Logger.Printf("can not open pcap file:%s \n", filePath)
 	}
 	defer handle.Close()
 
@@ -49,7 +49,7 @@ func extract(mmap map[string]*[]*gopacket.Packet, savingPath string, rawFile str
 		line := strings.Join(strings.Split(k, "-"), ",")
 		line += ","
 		var lengs []string
-		fmt.Printf("extract flow [%s],length=%d.\n", k, len(*v))
+		logger.Logger.Printf("extract flow [%s],length=%d.\n", k, len(*v))
 		for _, p := range *v {
 			lengs = append(lengs, strconv.Itoa(len((*p).Data())))
 		}
@@ -67,5 +67,5 @@ func extract(mmap map[string]*[]*gopacket.Packet, savingPath string, rawFile str
 //save write data to savingFile
 func save(data string, savingFile string) {
 	filetools.WriteFile(savingFile, data)
-	fmt.Println("Data saved in " + savingFile)
+	logger.Logger.Println("Data saved in " + savingFile)
 }

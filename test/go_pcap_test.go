@@ -14,3 +14,7 @@ func TestFor(t *testing.T) {
 		fmt.Println(v)
 	}
 }
+
+func TestError(t *testing.T) {
+	fmt.Errorf("new error %s", "aaa")
+}

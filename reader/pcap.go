@@ -1,8 +1,8 @@
 package reader
 
 import (
-	"fmt"
 	"pcap-reader/filetools"
+	"pcap-reader/logger"
 	"pcap-reader/parser"
 	"strings"
 )
@@ -11,7 +11,7 @@ import (
 func Parse(pcapDir string, savingDir string) {
 	files := filetools.ListFiles(pcapDir, ".pcap")
 	for i := range files {
-		fmt.Printf("------ Reading pcap : %s ---------------\n", files[i])
+		logger.Logger.Printf("------ Reading pcap : %s ---------------\n", files[i])
 		handlePcap(files[i], savingDir)
 	}
 }
